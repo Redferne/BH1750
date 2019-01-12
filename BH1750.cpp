@@ -70,6 +70,12 @@ bool BH1750::begin(Mode mode) {
 
 }
 
+void BH1750::sleep(void) {
+  // Send mode to sensor
+  Wire.beginTransmission(BH1750_I2CADDR);
+  __wire_write(BH1750_POWER_DOWN);
+  Wire.endTransmission();
+}
 
 /**
  * Configure BH1750 with specified mode

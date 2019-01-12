@@ -63,6 +63,7 @@ class BH1750 {
     bool begin(Mode mode = CONTINUOUS_HIGH_RES_MODE);
     bool configure(Mode mode);
     bool setMTreg(byte MTreg);
+    void sleep (void);
     float readLightLevel(bool maxWait = false);
 
   private:
@@ -71,6 +72,7 @@ class BH1750 {
     // Correction factor used to calculate lux. Typical value is 1.2 but can
     // range from 0.96 to 1.44. See the data sheet (p.2, Measurement Accuracy)
     // for more information.
+
     const float BH1750_CONV_FACTOR = 1.2;
     Mode BH1750_MODE = UNCONFIGURED;
 
