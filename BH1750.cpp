@@ -12,6 +12,8 @@
 
 #include "BH1750.h"
 
+//#define BH1750_DEBUG
+
 // Define milliseconds delay for ESP8266 platform
 #if defined(ESP8266)
 
@@ -107,7 +109,9 @@ bool BH1750::configure(Mode mode) {
 
     default:
       // Invalid measurement mode
+#ifdef BH1750_DEBUG
       Serial.println(F("[BH1750] ERROR: Invalid mode"));
+#endif
       break;
 
   }
@@ -117,6 +121,7 @@ bool BH1750::configure(Mode mode) {
     case 0:
       BH1750_MODE = mode;
       return true;
+#ifdef BH1750_DEBUG
     case 1: // too long for transmit buffer
       Serial.println(F("[BH1750] ERROR: too long for transmit buffer"));
       break;
@@ -132,6 +137,7 @@ bool BH1750::configure(Mode mode) {
     default:
       Serial.println(F("[BH1750] ERROR: undefined error"));
       break;
+#endif
   }
 
   return false;
@@ -148,7 +154,9 @@ bool BH1750::configure(Mode mode) {
 bool BH1750::setMTreg(byte MTreg) {
   //Bug: lowest value seems to be 32!
   if (MTreg <= 31 || MTreg > 254) {
+#ifdef BH1750_DEBUG
     Serial.println(F("[BH1750] ERROR: MTreg out of range"));
+#endif
     return false;
   }
   byte ack = 5;
@@ -185,6 +193,7 @@ bool BH1750::setMTreg(byte MTreg) {
           break;
   	  }
       return true;
+#ifdef BH1750_DEBUG
     case 1: // too long for transmit buffer
       Serial.println(F("[BH1750] ERROR: too long for transmit buffer"));
       break;
@@ -200,6 +209,7 @@ bool BH1750::setMTreg(byte MTreg) {
     default:
       Serial.println(F("[BH1750] ERROR: undefined error"));
       break;
+#endif
   }
 
   return false;
@@ -216,7 +226,9 @@ bool BH1750::setMTreg(byte MTreg) {
 float BH1750::readLightLevel(bool maxWait) {
 
   if (BH1750_MODE == UNCONFIGURED) {
+#ifdef BH1750_DEBUG
     Serial.println(F("[BH1750] Device is not configured!"));
+#endif
     return -2.0;
   }
 
